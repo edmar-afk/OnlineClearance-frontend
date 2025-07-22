@@ -1,11 +1,12 @@
-import { useRef, useState, useEffect } from "react";import SignatureCanvas from "react-signature-canvas";
+import { useRef, useState, useEffect } from "react";import SignaturePad from "signature_pad";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import api from "../assets/api";
 import { getUserIdFromToken } from "../utils/auth";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-function SignaturePad() {
-	const sigCanvas = useRef(null);
+function SignaturePadComponent() {
+	const canvasRef = useRef(null);
+	const sigPadRef = useRef(null);
 	const [imageURL, setImageURL] = useState("");
 	const [hasSigned, setHasSigned] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
@@ -13,11 +14,7 @@ function SignaturePad() {
 	const fetchSignature = () => {
 		const access = localStorage.getItem("access");
 		const staffId = getUserIdFromToken(access);
-
-		if (!access || !staffId) {
-			console.error("Missing access token or staff ID");
-			return;
-		}
+		if (!access || !staffId) return;
 
 		api
 			.get(`/api/signature/${staffId}/`)
@@ -28,8 +25,7 @@ function SignaturePad() {
 					setIsEditing(false);
 				}
 			})
-			.catch((err) => {
-				console.error("Error fetching signature:", err);
+			.catch(() => {
 				setHasSigned(false);
 				setIsEditing(true);
 			});
@@ -39,47 +35,48 @@ function SignaturePad() {
 		fetchSignature();
 	}, []);
 
-	const clear = () => {
-		if (sigCanvas.current) {
-			sigCanvas.current.clear();
+	useEffect(() => {
+		if (canvasRef.current) {
+			sigPadRef.current = new SignaturePad(canvasRef.current, {
+				minWidth: 1,
+				maxWidth: 3,
+				penColor: "black",
+			});
 		}
+	}, [isEditing]);
+
+	const clear = () => {
+		sigPadRef.current?.clear();
 		setImageURL("");
 	};
 
 	const save = async () => {
-		if (sigCanvas.current && !sigCanvas.current.isEmpty()) {
-			const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
-			const blob = await (await fetch(dataURL)).blob();
-			const file = new File([blob], "signature.png", { type: "image/png" });
+		if (!sigPadRef.current || sigPadRef.current.isEmpty()) return;
 
-			const access = localStorage.getItem("access");
-			const staffId = getUserIdFromToken(access);
+		const dataURL = sigPadRef.current.toDataURL("image/png");
+		const blob = await (await fetch(dataURL)).blob();
+		const file = new File([blob], "signature.png", { type: "image/png" });
 
-			if (!access || !staffId) {
-				console.error("Missing access token or staff ID");
-				return;
-			}
+		const access = localStorage.getItem("access");
+		const staffId = getUserIdFromToken(access);
+		if (!access || !staffId) return;
 
-			const formData = new FormData();
-			formData.append("image", file);
-			formData.append("staff", staffId); // required by your backend view
+		const formData = new FormData();
+		formData.append("image", file);
+		formData.append("staff", staffId);
 
-			try {
-				await api.post("/api/upload-signature/", formData, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-						Authorization: `Bearer ${access}`,
-					},
-				});
-				setTimeout(() => {
-					fetchSignature();
-				}, 1000);
-			} catch (err) {
-				console.error("Upload failed", err);
-			}
+		try {
+			await api.post("/api/upload-signature/", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${access}`,
+				},
+			});
+			setTimeout(() => fetchSignature(), 1000);
+		} catch (err) {
+			console.error("Upload failed", err);
 		}
 	};
-
 
 	const handleSignAgain = () => {
 		clear();
@@ -113,29 +110,24 @@ function SignaturePad() {
 							className="rounded-xl border-2 border-gray-400 w-full h-full object-contain"
 						/>
 					) : (
-						<SignatureCanvas
-							ref={sigCanvas}
-							penColor="black"
-							canvasProps={{
-								width: 400,
-								height: 200,
-								className: "rounded-xl border-2 border-gray-400",
-							}}
+						<canvas
+							ref={canvasRef}
+							width={400}
+							height={200}
+							className="rounded-xl border-2 border-gray-400 bg-white"
 						/>
 					)}
 				</div>
 			</div>
 
 			{hasSigned && !isEditing && (
-				<>
-					<div className="flex justify-center mb-4">
-						<button
-							onClick={handleSignAgain}
-							className="bg-yellow-600 text-white py-1 px-8 rounded-md hover:bg-yellow-700 transition">
-							Sign Again
-						</button>
-					</div>
-				</>
+				<div className="flex justify-center mb-4">
+					<button
+						onClick={handleSignAgain}
+						className="bg-yellow-600 text-white py-1 px-8 rounded-md hover:bg-yellow-700 transition">
+						Sign Again
+					</button>
+				</div>
 			)}
 
 			{isEditing && (
@@ -185,4 +177,4 @@ function SignaturePad() {
 	);
 }
 
-export default SignaturePad;
+export default SignaturePadComponent;
