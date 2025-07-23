@@ -42,8 +42,8 @@ function Login() {
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis,
 							lectus magna fringilla urna, porttitor rhoncus dolor purus non enim.
 						</p>
-						<p className="font-bold">John Robert</p>
-						<p className="text-sm">Senior Webflow Developer</p>
+						<p className="font-bold">Unknown</p>
+						<p className="text-sm">text text text text</p>
 					</div>
 				</div>
 			</div>
