@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";import logo from "../../assets/images/logo.png";import Programs from "./Programs";import api from "../../assets/api";import { getUserIdFromToken } from "../../utils/auth";
+import { useEffect, useState } from "react";import logo from "../../assets/images/logo.png";import Programs from "./Programs";
+import api from "../../assets/api";
+import { getUserIdFromToken } from "../../utils/auth";
+import Fab from "./Fab";
 function StudentClearance() {
 	const [studentClearance, setStudentClearance] = useState(null);
 	const [clearancePrograms, setClearancePrograms] = useState([]);
@@ -6,6 +9,11 @@ function StudentClearance() {
 	const [loading, setLoading] = useState(true);
 	const [latestClearance, setLatestClearance] = useState(null);
 	const [userId, setUserId] = useState(null);
+	const [allProgramsStatus, setAllProgramsStatus] = useState({});
+
+	const updateProgramStatus = (name, status) => {
+		setAllProgramsStatus((prev) => ({ ...prev, [name]: status }));
+	};
 
 	useEffect(() => {
 		const access = localStorage.getItem("access");
@@ -60,7 +68,7 @@ function StudentClearance() {
 		api
 			.get(`/api/student/${userId}/`)
 			.then((response) => {
-				console.log("Student Info:", response.data);
+				//console.log("Student Info:", response.data);
 				setStudentData(response.data);
 			})
 			.catch((error) => {
@@ -112,13 +120,13 @@ function StudentClearance() {
 			});
 	};
 
-
 	if (loading) return <p>Loading...</p>;
 
-	console.log("student clearance", studentClearance);
-	console.log('student', studentData)
+	// console.log("student clearance", studentClearance);
+	console.log("student", studentData);
 	return (
 		<div className="px-2 md:px-44 py-2 md:py-14">
+			<Fab data={studentData} />
 			<div className="bg-white h-full shadow-2xl rounded-xl border-2 border-green-200">
 				<div className="flex flex-row items-center justify-center pt-8">
 					<img
@@ -173,6 +181,8 @@ function StudentClearance() {
 								key={program.id}
 								program={program}
 								studentId={userId}
+								allProgramsStatus={allProgramsStatus}
+								updateProgramStatus={updateProgramStatus}
 							/>
 						))
 					) : studentClearance ? (

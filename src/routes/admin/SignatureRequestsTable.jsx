@@ -1,17 +1,24 @@
-import { useEffect, useState } from "react";import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
-import api from "../../assets/api";
+/* eslint-disable react-hooks/exhaustive-deps */import { useEffect, useState } from "react";import { Tooltip } from "react-tooltip";import "react-tooltip/dist/react-tooltip.css";import api from "../../assets/api";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import BlockIcon from "@mui/icons-material/Block";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
-
-function SignatureRequestsTable({staffId}) {
+import ViewReceipt from "./ViewReceipt";
+const BASE_URL = import.meta.env.VITE_API_URL;
+function SignatureRequestsTable({ staffId, staffProgram, year, course, isSuperUser }) {
 	const [signatures, setSignatures] = useState([]);
+
 	console.log("Signatures:", signatures);
 
 	useEffect(() => {
+		const program = isSuperUser ? "none" : staffProgram || "none";
+		const last = isSuperUser ? "none" : course?.includes(" - ") ? course.split(" - ")[0] : course || "none";
+		const yr = isSuperUser ? "none" : course?.includes(" - ") ? course.split(" - ")[1] : year || "none";
+
+
+		const endpoint = `/api/clearance-signatures/${program}/${last}/${yr}/`;
+
 		api
-			.get("/api/clearance-signatures/")
+			.get(endpoint)
 			.then(async (res) => {
 				const clearances = res.data;
 
@@ -28,6 +35,7 @@ function SignatureRequestsTable({staffId}) {
 				console.error("Failed to fetch signature clearances:", err);
 			});
 	}, []);
+
 
 	const handleStatusUpdate = (id, newStatus) => {
 		const payload = { status: newStatus };
@@ -100,6 +108,9 @@ function SignatureRequestsTable({staffId}) {
 									<th className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl">
 										A.Y. - Semester
 									</th>
+									<th className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl">
+										Reciepts
+									</th>
 									<th className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize">Status</th>
 									<th className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl">
 										Actions
@@ -123,6 +134,20 @@ function SignatureRequestsTable({staffId}) {
 										<td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
 											{signature.clearance?.clearance?.academic_year} - {signature.clearance?.clearance?.semester}
 										</td>
+										<td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+											{signature.receipt ? (
+												<ViewReceipt
+													name={signature.signatureDetail?.user?.first_name}
+													yearLvl={course?.includes(" - ") ? course.split(" - ")[1] : ""}
+													course={signature.signatureDetail?.user?.last_name}
+													program={signature.programs.program_name}
+													imageUrl={`${BASE_URL}${signature.receipt}`}
+												/>
+											) : (
+												<span className="text-gray-500 italic">No receipt</span>
+											)}
+										</td>
+
 										<td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
 											{signature.status}
 										</td>

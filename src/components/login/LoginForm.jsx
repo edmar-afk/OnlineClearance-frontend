@@ -50,7 +50,7 @@ function LoginForm({ onToggle }) {
 				confirmButtonColor: "#16a34a",
 			});
 
-			if (userData.is_staff && userData.is_superuser) {
+			if (userData.is_staff || userData.is_superuser) {
 				navigate("/dashboard");
 			} else {
 				navigate("/student-clearance");

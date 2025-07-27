@@ -4,7 +4,35 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import BadgeIcon from "@mui/icons-material/Badge";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getUserIdFromToken } from "../utils/auth";
+import api from "../assets/api";
 function Sidebar() {
+	const [userInfo, setUserInfo] = useState(null);
+
+	useEffect(() => {
+		const access = localStorage.getItem("access");
+		const userId = getUserIdFromToken(access);
+
+		if (!access || !userId) {
+			console.error("Access token or user ID is missing.");
+			return;
+		}
+
+		api
+			.get(`/api/user/${userId}/`, {
+				headers: {
+					Authorization: `Bearer ${access}`,
+				},
+			})
+			.then((response) => {
+				console.log("User Info:", response.data);
+				setUserInfo(response.data);
+			})
+			.catch((error) => {
+				console.error("Failed to fetch user:", error);
+			});
+	}, []);
 	return (
 		<>
 			<aside className="fixed w-64 bg-gray-800 md:block min-h-screen">
@@ -42,17 +70,20 @@ function Sidebar() {
 								Dashboard
 							</NavLink>
 						</li>
-						<li className="px-4 cursor-pointer hover:bg-green-700">
-							<a
-								className="py-3 flex items-center"
-								href="/">
-								<BadgeIcon
-									fontSize="small"
-									className="mr-1"
-								/>
-								Staffs
-							</a>
-						</li>
+						{userInfo?.is_superuser && (
+							<li className="px-4 cursor-pointer hover:bg-green-700">
+								<a
+									className="py-3 flex items-center"
+									href="/">
+									<BadgeIcon
+										fontSize="small"
+										className="mr-1"
+									/>
+									Staffs
+								</a>
+							</li>
+						)}
+
 						<li className="px-4 py-2 text-xs uppercase tracking-wider text-gray-500 font-bold">STUDENT MANAGEMENT</li>
 						<li className="cursor-pointer hover:bg-green-700">
 							<NavLink
@@ -69,21 +100,23 @@ function Sidebar() {
 								Signature Requests
 							</NavLink>
 						</li>
-						<li className="cursor-pointer hover:bg-green-700">
-							<NavLink
-								className={({ isActive }) =>
-									`py-3 px-4 flex items-center ${
-										isActive ? "bg-green-700 text-white" : "hover:bg-gray-700 text-gray-300"
-									}`
-								}
-								to="/request-clearance">
-								<PeopleIcon
-									fontSize="small"
-									className="mr-1"
-								/>
-								Clearance Requests
-							</NavLink>
-						</li>
+						{userInfo?.is_superuser && (
+							<li className="cursor-pointer hover:bg-green-700">
+								<NavLink
+									className={({ isActive }) =>
+										`py-3 px-4 flex items-center ${
+											isActive ? "bg-green-700 text-white" : "hover:bg-gray-700 text-gray-300"
+										}`
+									}
+									to="/request-clearance">
+									<PeopleIcon
+										fontSize="small"
+										className="mr-1"
+									/>
+									Clearance Requests
+								</NavLink>
+							</li>
+						)}
 						<li className="cursor-pointer hover:bg-green-700">
 							<NavLink
 								to="/signature"
@@ -99,21 +132,23 @@ function Sidebar() {
 								Signatures
 							</NavLink>
 						</li>
-						<li className="cursor-pointer hover:bg-green-700">
-							<NavLink
-								to="/release-clearance"
-								className={({ isActive }) =>
-									`py-3 px-4 flex items-center ${
-										isActive ? "bg-green-700 text-white" : "hover:bg-gray-700 text-gray-300"
-									}`
-								}>
-								<EditNoteIcon
-									fontSize="small"
-									className="mr-1"
-								/>
-								Clearance Release
-							</NavLink>
-						</li>
+						{userInfo?.is_superuser && (
+							<li className="cursor-pointer hover:bg-green-700">
+								<NavLink
+									to="/release-clearance"
+									className={({ isActive }) =>
+										`py-3 px-4 flex items-center ${
+											isActive ? "bg-green-700 text-white" : "hover:bg-gray-700 text-gray-300"
+										}`
+									}>
+									<EditNoteIcon
+										fontSize="small"
+										className="mr-1"
+									/>
+									Clearance Release
+								</NavLink>
+							</li>
+						)}
 
 						<li className="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Profile</li>
 						<li className="px-4 cursor-pointer hover:bg-green-700">
