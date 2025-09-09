@@ -46,7 +46,7 @@ function Stats() {
 				<div className="my-2"></div>
 			</div>
 
-			{programs.map((program) => (
+			{/* {programs.map((program) => (
 				<div
 					key={program.id}
 					className="w-[350px] rounded-lg bg-white p-2 mx-4 my-4 shadow-lg shadow-green-200">
@@ -72,7 +72,7 @@ function Stats() {
 					</div>
 					<div className="my-2"></div>
 				</div>
-			))}
+			))} */}
 		</div>
 	);
 }
