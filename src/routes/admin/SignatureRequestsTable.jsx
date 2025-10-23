@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */ import {
   useEffect,
   useState,
@@ -59,6 +60,8 @@ function SignatureRequestsTable({
 
   const handleStatusUpdate = (id, newStatus, reason = null) => {
     const payload = { status: newStatus };
+    console.log("🧠 Updating ID:", id);
+
 
     if (newStatus === "Approved") {
       payload.staffId = staffId;

@@ -50,7 +50,7 @@ function Sidebar() {
         </div>
         <nav className="text-sm text-gray-300">
           <ul className="flex flex-col">
-            <li className="cursor-pointer">
+            {/* <li className="cursor-pointer">
               <NavLink
                 to="/dashboard"
                 className={({ isActive }) =>
@@ -77,7 +77,7 @@ function Sidebar() {
                 </svg>
                 Dashboard
               </NavLink>
-            </li>
+            </li> */}
             {/* {userInfo?.is_superuser && (
 							<li className="px-4 cursor-pointer hover:bg-green-700">
 								<a

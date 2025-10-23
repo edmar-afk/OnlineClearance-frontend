@@ -51,7 +51,7 @@ function LoginForm({ onToggle }) {
 			});
 
 			if (userData.is_staff || userData.is_superuser) {
-				navigate("/dashboard");
+				navigate("/request-signature");
 			} else {
 				navigate("/student-clearance");
 			}
