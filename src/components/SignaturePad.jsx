@@ -159,7 +159,7 @@ function SignaturePadComponent() {
 						className="mr-1 text-blue-700 -mt-1 animate-bounce"
 					/>
 					By signing this document with an electronic signature, I agree that such signature will be as valid as
-					handwritten signatures to the extent allowed by local law (Chaaar lang pang capstone ra ni HAHAHAH).
+					handwritten signatures to the extent allowed by local law.
 				</p>
 				<label
 					title="This button is currently not working"
