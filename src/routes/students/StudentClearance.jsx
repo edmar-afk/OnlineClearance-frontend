@@ -70,7 +70,7 @@ function StudentClearance() {
     api
       .get(`/api/student/${userId}/`)
       .then((response) => {
-        //console.log("Student Info:", response.data);
+       console.log("Student Info:", response.data);
         setStudentData(response.data);
       })
       .catch((error) => {

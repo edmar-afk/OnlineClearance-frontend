@@ -8,13 +8,13 @@ function Fab({ data }) {
   if (!data) return null;
 
   return (
-    <div className="p-2 text-sm text-gray-600">
+    <div className="fixed z-[9999]">
       <StudentProfile info={data} />
-      <BrowserNotification info={data}/>
+      <BrowserNotification info={data} />
       <Tooltip title="Logout" placement="right" arrow>
         <Link
           to="/logout"
-          className="fixed left-6 top-24 bg-white p-3 rounded-full shadow-2xl cursor-pointer group hover:bg-red-500 duration-300 hover:scale-115"
+          className="fixed left-6 top-24 bg-white p-3 rounded-full shadow-2xl cursor-pointer group hover:bg-red-500 duration-300 hover:scale-110"
         >
           <ExitToAppIcon
             fontSize="medium"
