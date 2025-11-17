@@ -130,17 +130,15 @@ function StudentClearance() {
     <div className="px-2 md:px-44 py-2 md:py-14">
       <Fab data={studentData} />
       <div className="bg-white h-full shadow-2xl rounded-xl border-2 border-green-200">
-        <div className="flex flex-row items-center justify-center pt-8">
+        <div className="flex flex-row items-center justify-center pt-8 px-3 text-center">
           <img src={logo} alt="" className="w-12 md:w-24" />
           <div className="font-bold text-md md:text-2xl flex flex-col items-center ml-2 md:ml-6">
-            <p>J.H. CERILLES STATE COLLEGE</p>
-            <p>CANUTO M.S. ENERIO CAMPUS</p>
+            <p className="text-sm lg:text-4xl">J.H. CERILLES STATE COLLEGE</p>
+            <p className="text-xs lg:text-xl">CANUTO M.S. ENERIO CAMPUS</p>
+            <p className="font-extralight text-xs lg:text-lg">Biswangan, Lakewood, Zamboanga del Sur</p>
           </div>
+          <img src={logo} alt="" className="w-12 md:w-24 ml-2 md:ml-6" />
         </div>
-
-        <p className="text-center font-semibold italic pt-3 text-md md:text-2xl">
-          Biswangan, Lake Wood, Zamboanga del Sur
-        </p>
 
         <div className="text-center pt-8 md:pt-12 text-green-700 font-extrabold text-md md:text-3xl">
           <p className="">CLEARANCE FOR FINAL (EXAMINATION)</p>
