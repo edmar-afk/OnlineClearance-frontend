@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "../../assets/images/logo.png";
+import studentLogo from "../../assets/images/studentlogo.jpg";
 import Programs from "./Programs";
 import api from "../../assets/api";
 import { getUserIdFromToken } from "../../utils/auth";
@@ -137,7 +138,7 @@ function StudentClearance() {
             <p className="text-xs lg:text-xl">CANUTO M.S. ENERIO CAMPUS</p>
             <p className="font-extralight text-xs lg:text-lg">Biswangan, Lakewood, Zamboanga del Sur</p>
           </div>
-          <img src={logo} alt="" className="w-12 md:w-24 ml-2 md:ml-6" />
+          <img src={studentLogo} alt="" className="w-12 md:w-24 ml-2 md:ml-6" />
         </div>
 
         <div className="text-center pt-8 md:pt-12 text-green-700 font-extrabold text-md md:text-3xl">
