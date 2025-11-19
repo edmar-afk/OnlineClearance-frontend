@@ -164,7 +164,7 @@ function StudentClearance() {
             <div className="flex items-center w-full">
               <span className="whitespace-nowrap mr-2">Course & Year:</span>
               <span className="flex-1 border-b border-black font-bold">
-                BSIT {studentData?.year_level}
+                {studentData?.user.last_name} {studentData?.year_level}
               </span>
             </div>
 
