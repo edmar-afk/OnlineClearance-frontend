@@ -171,7 +171,7 @@ function RegisterForm({ onToggle }) {
 					<option value="BSIT">BSIT</option>
 					<option value="BIT">BIT</option>
 					<option value="BTVTED-FSM">BTVTED-FSM</option>
-					<option value="BTVTED-AP">BTVTED-AP</option>
+					<option value="BTLED-AP">BTLED-AP</option>
 					<option value="BTLED-HE">BTLED-HE</option>
 				</select>
 			</div>
