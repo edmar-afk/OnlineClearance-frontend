@@ -170,7 +170,7 @@ function RegisterForm({ onToggle }) {
 					className="mb-4 block w-full border border-black bg-[#f2f2f7] px-3 py-4 pl-14 text-sm text-[#333333]">
 					<option value="BSIT">BSIT</option>
 					<option value="BIT">BIT</option>
-					<option value="BTED-FSM">BTED-FSM</option>
+					<option value="BTVTED-FSM">BTVTED-FSM</option>
 					<option value="BTLED-AP">BTLED-AP</option>
 					<option value="BTLED-HE">BTLED-HE</option>
 				</select>
