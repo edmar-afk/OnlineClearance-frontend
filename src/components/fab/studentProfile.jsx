@@ -16,7 +16,7 @@ function StudentProfile({ info }) {
 				placement="right">
 				<button
 					onClick={handleOpen}
-					className="fixed left-6 top-8 bg-white p-3 rounded-full shadow-2xl cursor-pointer group hover:bg-green-500 duration-300 hover:scale-115">
+					className="fixed left-6 bottom-20 bg-white p-3 rounded-full shadow-2xl cursor-pointer group hover:bg-green-500 duration-300 hover:scale-115">
 					<PersonIcon
 						fontSize="medium"
 						className="text-blue-500 group-hover:text-white"
