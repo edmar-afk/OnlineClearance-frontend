@@ -32,7 +32,6 @@ function SignatureRequests() {
 				console.error("Failed to fetch user:", error);
 			});
 	}, []);
-
 	return (
 		<>
 			<Sidebar />
@@ -46,6 +45,7 @@ function SignatureRequests() {
 					<SignatureRequestsTable
 						staffId={staffId}
 						staffProgram={userInfo.first_name}
+						facultyInfo={userInfo.username}
 						course={userInfo.last_name}
 						isSuperUser={userInfo.is_superuser}
 					/>

@@ -71,7 +71,7 @@ function StudentClearance() {
     api
       .get(`/api/student/${userId}/`)
       .then((response) => {
-       console.log("Student Info:", response.data);
+        console.log("Student Info:", response.data);
         setStudentData(response.data);
       })
       .catch((error) => {
@@ -136,7 +136,9 @@ function StudentClearance() {
           <div className="font-bold text-md md:text-2xl flex flex-col items-center ml-2 md:ml-6">
             <p className="text-sm lg:text-4xl">J.H. CERILLES STATE COLLEGE</p>
             <p className="text-xs lg:text-xl">CANUTO M.S. ENERIO CAMPUS</p>
-            <p className="font-extralight text-xs lg:text-lg">Biswangan, Lakewood, Zamboanga del Sur</p>
+            <p className="font-extralight text-xs lg:text-lg">
+              Biswangan, Lakewood, Zamboanga del Sur
+            </p>
           </div>
           <img src={studentLogo} alt="" className="w-12 md:w-24 ml-2 md:ml-6" />
         </div>
@@ -185,6 +187,7 @@ function StudentClearance() {
                 id={program.id}
                 program={program}
                 studentId={userId}
+                role={studentData} // <-- pass the full student info here
                 allProgramsStatus={allProgramsStatus}
                 updateProgramStatus={updateProgramStatus}
                 feedback={allProgramsStatus}

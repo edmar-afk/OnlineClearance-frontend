@@ -19,6 +19,7 @@ function SignatureRequestsTable({
   year,
   course,
   isSuperUser,
+  facultyInfo,
 }) {
   const [signatures, setSignatures] = useState([]);
 
@@ -37,7 +38,14 @@ function SignatureRequestsTable({
       ? course.split(" - ")[1]
       : year || "none";
 
-    const endpoint = `/api/clearance-signatures/${program}/${last}/${yr}/`;
+    const isIronClub = staffProgram === "Iron Club Treasurer";
+    const isFuelClub = staffProgram === "Fuel Club Treasurer";
+
+    const endpoint = isIronClub
+      ? `/api/clearance/iron-club/`
+      : isFuelClub
+      ? `/api/clearance/fuel-club/`
+      : `/api/clearance-signatures/${program}/${last}/${yr}/`;
 
     api
       .get(endpoint)
@@ -62,16 +70,18 @@ function SignatureRequestsTable({
     const payload = { status: newStatus };
     console.log("🧠 Updating ID:", id);
 
+    if (newStatus === "Approved") payload.staffId = staffId;
+    if (newStatus === "Rejected" && reason) payload.feedback = reason;
 
-    if (newStatus === "Approved") {
-      payload.staffId = staffId;
-    }
-    if (newStatus === "Rejected" && reason) {
-      payload.feedback = reason;
-    }
+    const url =
+      staffProgram === "Iron Club Treasurer"
+        ? `/api/clearance/iron-club/${id}/update-status/`
+        : staffProgram === "Fuel Club Treasurer"
+        ? `/api/clearance/fuel-club/${id}/update-status/`
+        : `/api/clearance-signatures/${id}/update-status/`;
 
     api
-      .patch(`/api/clearance-signatures/${id}/update-status/`, payload)
+      .patch(url, payload)
       .then(async (res) => {
         const updatedSignature = signatures.find((s) => s.id === id);
         const studentId = updatedSignature?.signatureDetail?.user?.id;
@@ -90,7 +100,6 @@ function SignatureRequestsTable({
           )
         );
 
-        // 🔔 Only create notification if Rejected
         if (newStatus === "Rejected" && studentId) {
           try {
             await api.post(`/api/notifications/${studentId}/`, {
@@ -117,6 +126,11 @@ function SignatureRequestsTable({
       return null;
     }
   };
+
+  console.log(
+    "Iron Club signature IDs:",
+    signatures.map((s) => s.id)
+  );
 
   return (
     <div className="flex flex-col">
