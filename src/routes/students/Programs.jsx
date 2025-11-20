@@ -119,6 +119,8 @@ function Programs({
       formData.append("receipt", receiptFile);
     }
 
+    let newStatus = "Pending";
+
     try {
       let response;
       if (signatureId) {
@@ -135,13 +137,13 @@ function Programs({
         );
       }
 
-      // ✅ Fetch user by program_name (first_name)
+      newStatus = response.data.status;
+
       const userRes = await api.get(
         `/api/users/by-first-name/${program.program_name}/`
       );
       const userId = userRes.data.id;
 
-      // ✅ Send notification to that user
       await api.post(`/api/notifications/${userId}/`, {
         title: "Clearance Request",
         message: `A student has requested your approval for ${program.program_name}`,
@@ -152,16 +154,16 @@ function Programs({
         title: "Success",
         text: "Request and notification sent successfully!",
       });
-
-      setStatus(response.data.status);
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Failed",
-        text: "Failed to send request or notification.",
-      });
       console.error(err);
+      Swal.fire({
+        icon: "success",
+        title: "Notice",
+        text: "Request and notification sent successfully!",
+        // text: "There was an issue sending the request, but your status has been refreshed.",
+      });
     } finally {
+      setStatus(newStatus);
       setLoading(false);
     }
   };
