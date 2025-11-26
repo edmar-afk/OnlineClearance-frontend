@@ -128,93 +128,104 @@ function StudentClearance() {
   // console.log("student clearance", studentClearance);
   //console.log("student", studentData);
   return (
-    <div className="px-2 md:px-44 py-2 md:py-14">
+    <>
       <Fab data={studentData} />
-      <div className="bg-white h-full shadow-2xl rounded-xl border-2 border-green-200">
-        <div className="flex flex-row items-center justify-center pt-8 px-3 text-center">
-          <img src={logo} alt="" className="w-12 md:w-24" />
-          <div className="font-bold text-md md:text-2xl flex flex-col items-center ml-2 md:ml-6">
-            <p className="text-sm lg:text-4xl">J.H. CERILLES STATE COLLEGE</p>
-            <p className="text-xs lg:text-xl">CANUTO M.S. ENERIO CAMPUS</p>
-            <p className="font-extralight text-xs lg:text-lg">
-              Biswangan, Lakewood, Zamboanga del Sur
-            </p>
-          </div>
-          <img src={studentLogo} alt="" className="w-12 md:w-24 ml-2 md:ml-6" />
-        </div>
-
-        <div className="text-center pt-8 md:pt-12 text-green-700 font-extrabold text-md md:text-3xl">
-          <p className="">CLEARANCE FOR FINAL (EXAMINATION)</p>
-          {latestClearance ? (
-            <p className="">
-              {latestClearance.semester}, {latestClearance.academic_year}
-            </p>
-          ) : (
-            <p className="italic text-gray-500 text-sm">Loading semester...</p>
-          )}
-        </div>
-
-        <div className="flex flex-col px-2 md:px-44 text-sm md:text-xl pt-12 md:pt-24 space-y-6">
-          <div className="flex items-center w-full">
-            <span className="whitespace-nowrap mr-2">Name:</span>
-            <span className="flex-1 border-b border-black font-bold">
-              {studentData?.user.first_name}
-            </span>
-          </div>
-
-          <div className="flex flex-col md:flex-row w-full gap-6">
-            <div className="flex items-center w-full">
-              <span className="whitespace-nowrap mr-2">Course & Year:</span>
-              <span className="flex-1 border-b border-black font-bold">
-                {studentData?.user.last_name} {studentData?.year_level}
-              </span>
-            </div>
-
-            <div className="flex items-center w-full">
-              <span className="whitespace-nowrap mr-2">Major: </span>
-              <span className="flex-1 border-b border-black font-bold">
-                {studentData?.major || "N/A"}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="px-2 md:px-44 py-10 flex flex-col space-y-6">
-          {studentClearance?.status === "Approved" ? (
-            clearancePrograms.map((program) => (
-              <Programs
-                key={program.id}
-                id={program.id}
-                program={program}
-                studentId={userId}
-                role={studentData} // <-- pass the full student info here
-                allProgramsStatus={allProgramsStatus}
-                updateProgramStatus={updateProgramStatus}
-                feedback={allProgramsStatus}
-              />
-            ))
-          ) : studentClearance ? (
-            <p className="text-blue-500 text-xl w-96 mx-auto font-bold text-center">
-              Your clearance status is "{studentClearance.status}". Programs
-              will be shown once confirmed. Please Wait
-            </p>
-          ) : (
-            <div className="text-orange-500 text-center py-24 text-xl font-semibold">
-              <p>
-                Oops! No clearance record found. Don’t worry — just send a
-                request to the school registrar to get started!
+      <div
+        className="px-2 md:px-44 py-2 md:py-14"
+        id="main-clearance-container"
+      >
+        <div className="bg-white h-full shadow-2xl rounded-xl border-2 border-green-200">
+          <div className="flex flex-row items-center justify-center pt-8 px-3 text-center">
+            <img src={logo} alt="" className="w-12 md:w-24" />
+            <div className="font-bold text-md md:text-2xl flex flex-col items-center ml-2 md:ml-6">
+              <p className="text-sm lg:text-4xl">J.H. CERILLES STATE COLLEGE</p>
+              <p className="text-xs lg:text-xl">CANUTO M.S. ENERIO CAMPUS</p>
+              <p className="font-extralight text-xs lg:text-lg">
+                Biswangan, Lakewood, Zamboanga del Sur
               </p>
-              <button
-                className="text-sm bg-blue-700 text-white py-2 px-4 rounded-md mt-8"
-                onClick={handleRequestClearance}
-              >
-                Send Request
-              </button>
             </div>
-          )}
+            <img
+              src={studentLogo}
+              alt=""
+              className="w-12 md:w-24 ml-2 md:ml-6"
+            />
+          </div>
+
+          <div className="text-center pt-8 md:pt-12 text-green-700 font-extrabold text-md md:text-3xl">
+            <p className="">CLEARANCE FOR FINAL (EXAMINATION)</p>
+            {latestClearance ? (
+              <p className="">
+                {latestClearance.semester}, {latestClearance.academic_year}
+              </p>
+            ) : (
+              <p className="italic text-gray-500 text-sm">
+                Loading semester...
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col px-2 md:px-44 text-sm md:text-xl pt-12 md:pt-24 space-y-6">
+            <div className="flex items-center w-full">
+              <span className="whitespace-nowrap mr-2">Name:</span>
+              <span className="flex-1 border-b border-black font-bold">
+                {studentData?.user.first_name}
+              </span>
+            </div>
+
+            <div className="flex flex-col md:flex-row w-full gap-6">
+              <div className="flex items-center w-full">
+                <span className="whitespace-nowrap mr-2">Course & Year:</span>
+                <span className="flex-1 border-b border-black font-bold">
+                  {studentData?.user.last_name} {studentData?.year_level}
+                </span>
+              </div>
+
+              <div className="flex items-center w-full">
+                <span className="whitespace-nowrap mr-2">Major: </span>
+                <span className="flex-1 border-b border-black font-bold">
+                  {studentData?.major || "N/A"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="px-2 md:px-44 py-10 flex flex-col space-y-6">
+            {studentClearance?.status === "Approved" ? (
+              clearancePrograms.map((program) => (
+                <Programs
+                  key={program.id}
+                  id={program.id}
+                  program={program}
+                  studentId={userId}
+                  role={studentData} // <-- pass the full student info here
+                  allProgramsStatus={allProgramsStatus}
+                  updateProgramStatus={updateProgramStatus}
+                  feedback={allProgramsStatus}
+                />
+              ))
+            ) : studentClearance ? (
+              <p className="text-blue-500 text-xl w-96 mx-auto font-bold text-center">
+                Your clearance status is "{studentClearance.status}". Programs
+                will be shown once confirmed. Please Wait
+              </p>
+            ) : (
+              <div className="text-orange-500 text-center py-24 text-xl font-semibold">
+                <p>
+                  Oops! No clearance record found. Don’t worry — just send a
+                  request to the school registrar to get started!
+                </p>
+                <button
+                  className="text-sm bg-blue-700 text-white py-2 px-4 rounded-md mt-8"
+                  onClick={handleRequestClearance}
+                >
+                  Send Request
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
