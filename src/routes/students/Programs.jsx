@@ -33,6 +33,7 @@ function Programs({
   studentId,
   allProgramsStatus,
   updateProgramStatus,
+  studentClearanceId,
 }) {
   const [signatureId, setSignatureId] = useState(null);
   const [status, setStatus] = useState("Loading...");
@@ -65,8 +66,10 @@ function Programs({
   useEffect(() => {
     const fetchSignatureStatus = async () => {
       try {
+        if (!studentClearanceId || !studentClearanceId.student) return;
+
         const res = await api.get(
-          `/api/clearance-signatures/status/${studentId}/${program.id}/`
+          `/api/clearance-signatures/status/${studentClearanceId.id}/${studentClearanceId.student.id}/${program.id}`
         );
 
         const progStatus = res.data.status || "No signature yet";
@@ -99,7 +102,7 @@ function Programs({
     };
 
     fetchSignatureStatus();
-  }, [studentId, program.id]);
+  }, [studentId, program.id, studentClearanceId]);
 
   const handleSendRequest = async () => {
     if (isReceiptRequired && !receiptFile) {

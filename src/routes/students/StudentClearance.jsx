@@ -119,7 +119,7 @@ function StudentClearance() {
       })
       .catch((err) => {
         console.error("Error requesting clearance:", err);
-        alert("Something went wrong. Please try again.");
+        alert("Please wait for Admin to Release Clearance.");
       });
   };
 
@@ -197,10 +197,9 @@ function StudentClearance() {
                   id={program.id}
                   program={program}
                   studentId={userId}
-                  role={studentData} // <-- pass the full student info here
+                  studentClearanceId={studentClearance}
                   allProgramsStatus={allProgramsStatus}
                   updateProgramStatus={updateProgramStatus}
-                  feedback={allProgramsStatus}
                 />
               ))
             ) : studentClearance ? (
