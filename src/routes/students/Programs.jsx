@@ -7,12 +7,15 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import InfoIcon from "@mui/icons-material/Info";
 import { Tooltip, IconButton } from "@mui/material";
 const BASE_URL = import.meta.env.VITE_API_URL;
+
+const CORE_TREASURERS = ["Club Treasurer", "SSC Treasurer", "PTA Treasurer"];
+
 const RECEIPT_REQUIRED_ROLES = [
   "Club Treasurer",
   "SSC Treasurer",
   "PTA Treasurer",
 ];
-const CORE_TREASURERS = ["Club Treasurer", "SSC Treasurer", "PTA Treasurer"];
+
 const SECOND_PHASE_APPROVERS = [
   "Computer Lab. In-Charge",
   "Science Lab. In-Charge",
@@ -20,9 +23,9 @@ const SECOND_PHASE_APPROVERS = [
   "Librarian",
   "Guidance Counselor",
   "Accounting",
+  "Class Adviser",
 ];
 const THIRD_APPROVERS = [
-  "Class Adviser",
   "Director of Student Affairs",
   "Program Chair",
   "Registrar",
@@ -217,6 +220,23 @@ function Programs({
     isDisabled = false;
   }
 
+  // AUTO-SEND REQUEST IF NEEDED
+  useEffect(() => {
+    // 1. Must have status already checked
+    if (!status) return;
+
+    // 2. Must be allowed to send
+    if (isDisabled) return;
+
+    // 3. If this program requires receipt but has no uploaded receipt → DO NOT auto-send
+    if (isReceiptRequired && !receiptFile) return;
+
+    // 4. Auto-trigger ONLY when student has not sent anything yet
+    if (status === "No signature yet") {
+      handleSendRequest();
+    }
+  }, [status, isDisabled, receiptFile]);
+
   return (
     <div>
       <div
@@ -383,7 +403,7 @@ function Programs({
                         ) : isDisabled ? (
                           <span>Sign other requirements first</span>
                         ) : (
-                          "Send Request"
+                          " "
                         )}
                       </button>
                     </>
