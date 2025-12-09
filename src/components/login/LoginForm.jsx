@@ -5,7 +5,7 @@ import padlock from "../../assets/images/padlock.png";
 import { getUserIdFromToken } from "../../utils/auth";
 function LoginForm({ onToggle }) {
 	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [password, setPassword] = useState("faculty@123");
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
@@ -85,7 +85,7 @@ function LoginForm({ onToggle }) {
 					autoComplete="email"
 					className="mb-4 block h-9 w-full border border-black bg-[#f2f2f7] px-3 py-6 pl-14 text-sm text-[#333333]"
 					maxLength="256"
-					placeholder="Email Address"
+					placeholder="Enter your School ID"
 					required
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
@@ -99,7 +99,7 @@ function LoginForm({ onToggle }) {
 				/>
 				<input
 					type="password"
-					className="mb-4 block h-9 w-full border border-black bg-[#f2f2f7] px-3 py-6 pl-14 text-sm text-[#333333]"
+					className="hidden mb-4 h-9 w-full border border-black bg-[#f2f2f7] px-3 py-6 pl-14 text-sm text-[#333333]"
 					placeholder="Password (min 8 characters)"
 					required
 					value={password}
@@ -121,14 +121,7 @@ function LoginForm({ onToggle }) {
 				</svg>
 			</button>
 
-			<p className="mt-4 text-sm text-[#647084] text-left">
-				Don't have an account?{" "}
-				<span
-					onClick={onToggle}
-					className="text-green-700 font-bold hover:underline cursor-pointer">
-					Register here
-				</span>
-			</p>
+			
 		</form>
 	);
 }
