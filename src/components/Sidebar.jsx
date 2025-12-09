@@ -38,6 +38,7 @@ function Sidebar() {
       });
   }, []);
 
+  console.log("User Info in Sidebar:", userInfo);
   return (
     <>
       <BrowserNotification userId={userInfo?.id} />
@@ -95,6 +96,7 @@ function Sidebar() {
             <li className="px-4 py-2 text-xs uppercase tracking-wider text-gray-500 font-bold">
               STUDENT MANAGEMENT
             </li>
+            {/* {userInfo?.username} */}
             <li className="cursor-pointer hover:bg-green-700">
               <NavLink
                 className={({ isActive }) =>
@@ -156,6 +158,25 @@ function Sidebar() {
                 >
                   <EditNoteIcon fontSize="small" className="mr-1" />
                   Clearance Release
+                </NavLink>
+              </li>
+            )}
+
+            {(userInfo?.username === "director" ||
+              userInfo?.username === "registrar") && (
+              <li className="cursor-pointer hover:bg-green-700">
+                <NavLink
+                  to="/completed-clearance"
+                  className={({ isActive }) =>
+                    `py-3 px-4 flex items-center ${
+                      isActive
+                        ? "bg-green-700 text-white"
+                        : "hover:bg-gray-700 text-gray-300"
+                    }`
+                  }
+                >
+                  <EditNoteIcon fontSize="small" className="mr-1" />
+                  Completed Clearance
                 </NavLink>
               </li>
             )}

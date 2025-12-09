@@ -8,6 +8,7 @@ import StudentClearance from "./routes/students/StudentClearance";
 import ClearanceRelease from './routes/admin/ClearanceRelease'
 import ClearanceRequest from "./routes/admin/ClearanceRequest";
 import SignatureRequests from "./routes/admin/SignatureRequests";
+import CompletedClearance from "./routes/admin/CompletedClearance";
 function App() {
 	return (
 		<BrowserRouter>
@@ -43,6 +44,10 @@ function App() {
 				<Route
 					path="/student-clearance"
 					element={<StudentClearance />}
+				/>
+				<Route
+					path="/completed-clearance"
+					element={<CompletedClearance />}
 				/>
 				<Route
 					path="/logout"

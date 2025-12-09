@@ -19,6 +19,12 @@ function StudentClearance() {
   };
 
   useEffect(() => {
+    if (!loading && !studentClearance) {
+      handleRequestClearance();
+    }
+  }, [loading, studentClearance]);
+
+  useEffect(() => {
     const access = localStorage.getItem("access");
     if (!access) {
       console.log("No access token found in localStorage.");
@@ -127,6 +133,7 @@ function StudentClearance() {
 
   // console.log("student clearance", studentClearance);
   //console.log("student", studentData);
+
   return (
     <>
       <Fab data={studentData} />

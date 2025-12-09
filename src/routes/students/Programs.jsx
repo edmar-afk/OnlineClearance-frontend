@@ -109,11 +109,9 @@ function Programs({
 
   const handleSendRequest = async () => {
     if (isReceiptRequired && !receiptFile) {
-      Swal.fire({
-        icon: "warning",
-        title: "Missing Receipt",
-        text: "Please select a receipt image before sending the request.",
-      });
+      console.log(
+        "Missing Receipt: Please select a receipt image before sending the request."
+      );
       return;
     }
 
@@ -155,19 +153,10 @@ function Programs({
         message: `A student has requested your approval for ${program.program_name}`,
       });
 
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Request and notification sent successfully!",
-      });
+      console.log("Success: Request and notification sent successfully!");
     } catch (err) {
       console.error(err);
-      Swal.fire({
-        icon: "success",
-        title: "Notice",
-        text: "Request and notification sent successfully!",
-        // text: "There was an issue sending the request, but your status has been refreshed.",
-      });
+      console.log("Notice: Request and notification sent successfully!");
     } finally {
       setStatus(newStatus);
       setLoading(false);
@@ -331,7 +320,7 @@ function Programs({
                             },
                           }}
                           arrow
-                        >
+                        > 
                           <IconButton
                             size="small"
                             onClick={handleToggle}
