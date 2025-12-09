@@ -119,12 +119,12 @@ function ClearanceRequestTable() {
 										Status{" "}
 									</th>
 
-									<th
+									{/* <th
 										scope="col"
 										className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl">
 										{" "}
 										Actions{" "}
-									</th>
+									</th> */}
 								</tr>
 							</thead>
 							<tbody className="divide-y divide-gray-300 ">
@@ -147,7 +147,7 @@ function ClearanceRequestTable() {
 											{" "}
 											{clearance.status}
 										</td>
-										<td className=" p-5 ">
+										{/* <td className=" p-5 ">
 											<div className="flex items-center gap-1">
 												<button
 													onClick={() => handleStatusUpdate(clearance.id, "Approved")}
@@ -176,7 +176,7 @@ function ClearanceRequestTable() {
 													<Tooltip id="reject-tooltip" />
 												</button>
 											</div>
-										</td>
+										</td> */}
 									</tr>
 								))}
 							</tbody>

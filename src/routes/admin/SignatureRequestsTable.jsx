@@ -259,7 +259,7 @@ function SignatureRequestsTable({
                         {signature.status}
                       </td>
                       <td className="p-5">
-                        {signature.status !== "Approved" && (
+                        {!isSuperUser && signature.status !== "Approved" && (
                           <div className="flex items-center gap-1">
                             <button
                               onClick={() =>
