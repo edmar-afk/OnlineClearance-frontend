@@ -112,7 +112,7 @@ function Sidebar() {
                 Signature Requests
               </NavLink>
             </li>
-            {userInfo?.is_superuser && (
+            {/* {userInfo?.is_superuser && (
               <li className="cursor-pointer hover:bg-green-700">
                 <NavLink
                   className={({ isActive }) =>
@@ -128,7 +128,7 @@ function Sidebar() {
                   Clearance Requests
                 </NavLink>
               </li>
-            )}
+            )} */}
             <li className="cursor-pointer hover:bg-green-700">
               <NavLink
                 to="/signature"
