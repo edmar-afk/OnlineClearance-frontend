@@ -5,25 +5,14 @@ import api from "../../assets/api";
 import userImg from "../../assets/images/user.png";
 import padlock from "../../assets/images/padlock.png";
 import { getUserIdFromToken } from "../../utils/auth";
-
 function LoginForm({ onToggle }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("Faculty@123");
-  const [isStudent, setIsStudent] = useState(true);
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
-  const handleToggle = (type) => {
-    if (type === "student") {
-      setIsStudent(true);
-      setPassword("Faculty@123");
-    } else {
-      setIsStudent(false);
-      setPassword("");
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     Swal.fire({
       title: "Logging in...",
       backdrop: true,
@@ -40,12 +29,17 @@ function LoginForm({ onToggle }) {
       });
 
       const { access, refresh } = response.data;
+
       localStorage.setItem("access", access);
       localStorage.setItem("refresh", refresh);
 
       const userId = getUserIdFromToken(access);
+
+      // 🔥 Fetch full user data
       const userRes = await api.get(`/api/user/${userId}/`, {
-        headers: { Authorization: `Bearer ${access}` },
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
       });
 
       const userData = userRes.data;
@@ -64,6 +58,7 @@ function LoginForm({ onToggle }) {
         navigate("/student-clearance");
       }
     } catch (error) {
+      console.error(error);
       Swal.fire({
         icon: "error",
         title: "Login Failed",
@@ -81,28 +76,6 @@ function LoginForm({ onToggle }) {
       autoComplete="on"
       method="post"
     >
-      <div className="flex mb-4 gap-2">
-        <button
-          type="button"
-          onClick={() => handleToggle("student")}
-          className={`w-1/2 py-2 font-semibold ${
-            isStudent ? "bg-green-700 text-white" : "bg-gray-300"
-          }`}
-        >
-          Student Login
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleToggle("faculty")}
-          className={`w-1/2 py-2 font-semibold ${
-            !isStudent ? "bg-green-700 text-white" : "bg-gray-300"
-          }`}
-        >
-          Faculty Login
-        </button>
-      </div>
-
       <div className="relative">
         <img
           alt=""
@@ -120,24 +93,21 @@ function LoginForm({ onToggle }) {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-
-      {!isStudent && (
-        <div className="relative mb-4">
-          <img
-            alt=""
-            src={padlock}
-            className="absolute bottom-0 left-4 top-4 w-5 h-5"
-          />
-          <input
-            type="password"
-            className="mb-4 h-9 w-full border border-black bg-[#f2f2f7] px-3 py-6 pl-14 text-sm text-[#333333]"
-            placeholder="Password (min 8 characters)"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-      )}
+      <div className="relative mb-4">
+        <img
+          alt=""
+          src={padlock}
+          className="absolute bottom-0 left-4 top-4 w-5 h-5"
+        />
+        <input
+          type="password"
+          className="block mb-4 h-9 w-full border border-black bg-[#f2f2f7] px-3 py-6 pl-14 text-sm text-[#333333]"
+          placeholder="Password (min 8 characters)"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
 
       <button
         type="submit"
